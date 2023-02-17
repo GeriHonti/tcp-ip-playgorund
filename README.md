@@ -1,4 +1,4 @@
-# tcp-ip-playgorund
+# tcp-ip-playground
 A simple TCP/IP client and server console application. 
 
 A TCP/IP client and server application is a type of network application that uses the TCP/IP protocol suite to establish communication between two or more computers over a network. 
