@@ -1,33 +1,29 @@
-﻿using System.Net.Sockets;
+﻿using System.IO;
+using System.Net.Sockets;
 using System.Text;
-
 
 static int CalculateChecksum(string str)
 {
-    int sum = 0;
-    foreach (char c in str)
-    {
-        sum += (int)c;
-    }
+    var sum = str.Aggregate(0, (current, c) => current + c);
     return sum % 256;
 }
 
 try
 {
     // Set the TcpListener on port 13000.
-    int port = 13000;
-    string server = "localhost";
+    var port = 13000;
+    var server = "localhost";
 
     // Create a TcpClient.
-    TcpClient client = new TcpClient(server, port);
+    var client = new TcpClient(server, port);
 
     Console.WriteLine("Connected to server on port 13000...");
 
     // Get a client stream for reading and writing.
-    NetworkStream stream = client.GetStream();
+    var stream = client.GetStream();
 
     // Start a new thread to listen for messages from the server.
-    Thread listenThread = new Thread(new ParameterizedThreadStart(ListenForMessages));
+    var listenThread = new Thread(ListenForMessages);
     listenThread.Start(stream);
 
     while (true)
@@ -35,19 +31,23 @@ try
         Console.Write("Enter a message to send: ");
 
         // Read a message from the console.
-        string message = Console.ReadLine();
-
+        var message = Console.ReadLine();
+        if (message == "/quit")
+        {
+            break;
+        }
+       
         // Translate the passed message into ASCII and store it as a byte array.
-        byte[] data = Encoding.ASCII.GetBytes(message);
-        Console.WriteLine($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")} {message} - {CalculateChecksum(message)}");
+        var data = Encoding.ASCII.GetBytes(message);
+        Console.WriteLine(
+            $"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")} {message} - {CalculateChecksum(message)}");
         // Send the message to the connected TcpServer.
         stream.Write(data, 0, data.Length);
-        Console.WriteLine("Sent: {0}", message);
+        Console.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss.fff} Sent: {message}");
     }
-
-    // Close everything.
     stream.Close();
     client.Close();
+
 }
 catch (Exception e)
 {
@@ -57,18 +57,17 @@ catch (Exception e)
 
 static void ListenForMessages(object obj)
 {
-    NetworkStream stream = (NetworkStream)obj;
+    var stream = (NetworkStream)obj;
 
     while (true)
     {
         // Check if there is any data available.
         if (stream.DataAvailable)
         {
-            byte[] data = new byte[256];
-            string responseData = string.Empty;
+            var data = new byte[256];
 
-            int bytes = stream.Read(data, 0, data.Length);
-            responseData = Encoding.ASCII.GetString(data, 0, bytes);
+            var bytes = stream.Read(data, 0, data.Length);
+            var responseData = Encoding.ASCII.GetString(data, 0, bytes);
             Console.WriteLine("Received: {0}", responseData);
         }
 
