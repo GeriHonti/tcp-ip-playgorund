@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33110.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TCPConsole", "TCPConsole\TCPConsole.csproj", "{2858CEFE-BBA0-4F4D-8755-916EFD1866DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TCPConsole", "TCPConsole\TCPConsole.csproj", "{2858CEFE-BBA0-4F4D-8755-916EFD1866DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TCPTestServer", "TCPTestServer\TCPTestServer.csproj", "{DF15DDD1-7D64-4B73-8DC0-329F6CA2ECDF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TCPTestServer", "TCPTestServer\TCPTestServer.csproj", "{DF15DDD1-7D64-4B73-8DC0-329F6CA2ECDF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
